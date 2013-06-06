@@ -7,7 +7,7 @@ BOOST_PYTHON_MODULE(Control) {
 
 	def("getInstance", RobotControl::getInstance, return_value_policy<reference_existing_object>());
 
-	class_<RobotControl>("RobotControl", no_init)
+	class_<RobotControl, noncopyable>("RobotControl", no_init)
 			.def("testStarted", &RobotControl::testStarted);
 
 }
