@@ -73,7 +73,12 @@ public:
     RobotControl(const std::string&);
     ~RobotControl();
 
+    RobotControl * getInstance();
+
+    void configureHook();
+    void startHook();
     void updateHook(); 
+    void cleanupHook();
     hubomsg::CanMessage buildCanMessage(canMsg* msg);
     void buildHuboCommandMessage(hubomsg::HuboJointCommand& state, hubomsg::HuboCommand& message);
     void initRobot(string path);
@@ -105,7 +110,6 @@ public:
 
 private:
 
-
     //SUBSCRIBE
     InputPort<hubomsg::CanMessage>* canUpPort;
     InputPort<hubomsg::HuboCmd>* orOutPort;
@@ -118,7 +122,9 @@ private:
     OutputPort<hubomsg::HuboCommand>* huboDownPort;
     OutputPort<hubomsg::AchCommand>* achDownPort;
 
+
     HuboState* state;
+    RobotControl* singleton; //For Python Bindings, I guess...
 
     queue<hubomsg::CanMessage>* inputQueue;
     queue<hubomsg::HuboState>*	huboInputQueue;

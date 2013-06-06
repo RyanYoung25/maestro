@@ -122,35 +122,32 @@ RobotControl::RobotControl(const std::string& name) : TaskContext(name) {
     commands["HomeAll"] = HOMEALL;
     commands["InitializeSensors"] = INITSENSORS;
     commands["Update"] = UPDATE;
-
-    ostringstream logfile;
-	logfile << LOG_PATH << "RobotControl.log";
-    tempOutput.open(logfile.str().c_str());
-    vector<string> paths = getGestureScripts(CONFIG_PATH);
-    for (int i = 0; i < paths.size(); i++){
-		std::cout << "Adding gestures from path: " << paths[i] << std::endl;
-		this->getProvider<Scripting>("scripting")->loadPrograms(paths[i]);
-    }
-
-    RUN_TYPE = getRunType(CONFIG_PATH);
 }
   
 RobotControl::~RobotControl(){}
 
-vector<float> trajectoryValues(string path){
-	vector<float> val;
-	float f;
+RobotControl *RobotControl::getInstance(){
+	// INCREDIBLY BAD PRACTICE //
+	// ONLY USED FOR PYTHON BINDINGS //
+	return singleton;
+}
 
-	ifstream is;
-	is.open(path.c_str());
-
-	while (!is.eof()){
-		is >> f;
-		val.push_back(f*5.0);
+void RobotControl::configureHook(){
+	vector<string> paths = getGestureScripts(CONFIG_PATH);
+	for (int i = 0; i < paths.size(); i++){
+		std::cout << "Adding gestures from path: " << paths[i] << std::endl;
+		this->getProvider<Scripting>("scripting")->loadPrograms(paths[i]);
 	}
-	is.close();
 
-	return val;
+	RUN_TYPE = getRunType(CONFIG_PATH);
+
+	singleton = this;
+}
+
+void RobotControl::startHook(){
+	ostringstream logfile;
+	logfile << LOG_PATH << "RobotControl.log";
+	tempOutput.open(logfile.str().c_str());
 }
 
 void RobotControl::updateHook(){
@@ -212,6 +209,26 @@ void RobotControl::updateHook(){
 		achOutputQueue->pop();
 	}
 	usleep(delay);
+}
+
+void RobotControl::cleanupHook(){
+	tempOutput.close();
+}
+
+vector<float> trajectoryValues(string path){
+	vector<float> val;
+	float f;
+
+	ifstream is;
+	is.open(path.c_str());
+
+	while (!is.eof()){
+		is >> f;
+		val.push_back(f*5.0);
+	}
+	is.close();
+
+	return val;
 }
 
 hubomsg::CanMessage RobotControl::buildCanMessage(canMsg* msg){
