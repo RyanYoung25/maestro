@@ -75,8 +75,8 @@ public:
 
     RobotControl * getInstance();
 
-    void configureHook();
-    void startHook();
+    bool configureHook();
+    bool startHook();
     void updateHook(); 
     void cleanupHook();
     hubomsg::CanMessage buildCanMessage(canMsg* msg);

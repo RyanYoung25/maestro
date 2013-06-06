@@ -132,7 +132,7 @@ RobotControl *RobotControl::getInstance(){
 	return singleton;
 }
 
-void RobotControl::configureHook(){
+bool RobotControl::configureHook(){
 	vector<string> paths = getGestureScripts(CONFIG_PATH);
 	for (int i = 0; i < paths.size(); i++){
 		std::cout << "Adding gestures from path: " << paths[i] << std::endl;
@@ -142,12 +142,15 @@ void RobotControl::configureHook(){
 	RUN_TYPE = getRunType(CONFIG_PATH);
 
 	singleton = this;
+	return true;
 }
 
-void RobotControl::startHook(){
+bool RobotControl::startHook(){
 	ostringstream logfile;
 	logfile << LOG_PATH << "RobotControl.log";
 	tempOutput.open(logfile.str().c_str());
+
+	return true;
 }
 
 void RobotControl::updateHook(){
