@@ -124,7 +124,7 @@ private:
 
 
     HuboState* state;
-    RobotControl* singleton; //For Python Bindings, I guess...
+    static RobotControl* singleton; //For Python Bindings, I guess...
 
     queue<hubomsg::CanMessage>* inputQueue;
     queue<hubomsg::HuboState>*	huboInputQueue;
