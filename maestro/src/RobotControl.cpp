@@ -28,6 +28,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 using namespace std;
 
+RobotControl* RobotControl::singleton = NULL;
+
 RobotControl::RobotControl(const std::string& name) : TaskContext(name) {
     
     this->canUpPort = new InputPort<hubomsg::CanMessage>("can_up");
