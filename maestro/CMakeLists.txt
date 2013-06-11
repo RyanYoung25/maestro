@@ -14,17 +14,30 @@ rosbuild_init()
 rosbuild_find_ros_package(rtt )
 find_package(Orocos-RTT HINTS ${rtt_PACKAGE_PATH}/install)
 find_package(Orocos-RTT REQUIRED rtt-scripting)
+find_package(PythonLibs REQUIRED)
 
+rosbuild_add_boost_directories()
 rosbuild_genmsg()
 # Defines the orocos_* cmake macros. See that file for additional
 # documentation.
 
 include(${OROCOS-RTT_USE_FILE_PATH}/UseOROCOS-RTT.cmake)
-
+include_directories(${PYTHON_INCLUDE_PATH})
 
 #common commands for building c++ executables and libraries
-orocos_component(${PROJECT_NAME} src/RobotControl.cpp src/CommHandler.cpp src/HuboMotor.cpp src/huboCan.cpp src/MotorBoard.cpp src/IMUBoard.cpp src/FTSensorBoard.cpp src/HuboState.cpp src/pugixml.cpp)
+#orocos_component(${PROJECT_NAME} src/RobotControl.cpp src/CommHandler.cpp src/HuboMotor.cpp
+#src/huboCan.cpp src/MotorBoard.cpp src/IMUBoard.cpp src/FTSensorBoard.cpp
+#src/HuboState.cpp src/pugixml.cpp)
+orocos_component(${PROJECT_NAME} src/RobotControl.cpp
+src/RobotControl-Python.cpp src/CommHandler.cpp src/HuboMotor.cpp
+src/huboCan.cpp src/MotorBoard.cpp src/IMUBoard.cpp src/FTSensorBoard.cpp
+src/HuboState.cpp src/pugixml.cpp)
 target_link_libraries(${PROJECT_NAME} ${OROCOS-RTT_RTT-SCRIPTING_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+rosbuild_link_boost(${PROJECT_NAME} python)
+
+
+
 #rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 #rosbuild_add_executable(example examples/example.cpp)

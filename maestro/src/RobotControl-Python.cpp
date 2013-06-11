@@ -11,3 +11,4 @@ BOOST_PYTHON_MODULE(Control) {
 			.def("testStarted", &RobotControl::updateState);
 
 }
+
