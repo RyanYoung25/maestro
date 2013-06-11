@@ -73,7 +73,7 @@ public:
     RobotControl(const std::string&);
     ~RobotControl();
 
-    RobotControl * getInstance();
+    static RobotControl *getInstance();
 
     bool configureHook();
     bool startHook();
