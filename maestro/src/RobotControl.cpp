@@ -144,6 +144,7 @@ bool RobotControl::configureHook(){
 	RUN_TYPE = getRunType(CONFIG_PATH);
 
 	singleton = this;
+	tempOutput << "RobotControl has been configured. Singleton populated with address: " << singleton << std::endl;
 	return true;
 }
 
