@@ -143,15 +143,24 @@ bool RobotControl::configureHook(){
 
 	RUN_TYPE = getRunType(CONFIG_PATH);
 
+	if (!tempOutput.is_open()){
+		ostringstream logfile;
+		logfile << LOG_PATH << "RobotControl.log";
+		tempOutput.open(logfile.str().c_str());
+	}
+
 	singleton = this;
 	tempOutput << "RobotControl has been configured. Singleton populated with address: " << singleton << std::endl;
 	return true;
 }
 
 bool RobotControl::startHook(){
-	ostringstream logfile;
-	logfile << LOG_PATH << "RobotControl.log";
-	tempOutput.open(logfile.str().c_str());
+
+	if (!tempOutput.is_open()){
+		ostringstream logfile;
+		logfile << LOG_PATH << "RobotControl.log";
+		tempOutput.open(logfile.str().c_str());
+	}
 
 	return true;
 }
