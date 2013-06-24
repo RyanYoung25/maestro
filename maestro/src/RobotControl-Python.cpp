@@ -16,8 +16,7 @@ boost::shared_ptr<RobotControl> getSharedInstance(){
 BOOST_PYTHON_MODULE(Control) {
 
 	class_< RobotControl, boost::shared_ptr<RobotControl>, boost::noncopyable >("RobotControl", no_init)
-			.def("updateState", &RobotControl::updateState)
-			.def("getInstance", &getSharedInstance, return_value_policy<reference_existing_object>())
+			.def("getInstance", &getSharedInstance)
 			.staticmethod("getInstance");
 }
 
