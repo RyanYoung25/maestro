@@ -10,6 +10,7 @@ struct NullDeleter{
 };
 
 boost::shared_ptr<RobotControl> getSharedInstance(){
+	std::cout << "Getting Shared instance of RobotControl. Pointer: " << RobotControl::getInstance() << std::endl;
 	return boost::shared_ptr<RobotControl>( RobotControl::getInstance(), NullDeleter() );
 }
 
