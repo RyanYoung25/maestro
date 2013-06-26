@@ -14,7 +14,7 @@ boost::shared_ptr<RobotControl> getSharedInstance(){
 	return boost::shared_ptr<RobotControl>( RobotControl::getInstance(), NullDeleter() );
 }
 
-BOOST_PYTHON_MODULE(Control) {
+BOOST_PYTHON_MODULE(libmaestro_gnulinux) {
 
 	class_< RobotControl, boost::shared_ptr<RobotControl>, boost::noncopyable >("RobotControl", no_init)
 			.def("getInstance", &getSharedInstance)

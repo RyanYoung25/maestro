@@ -13,8 +13,7 @@ set(ROS_BUILD_TYPE RelWithDebInfo)
 rosbuild_init()
 
 rosbuild_find_ros_package(rtt )
-find_package(Orocos-RTT HINTS ${rtt_PACKAGE_PATH}/install)
-find_package(Orocos-RTT REQUIRED rtt-scripting)
+find_package(Orocos-RTT HINTS ${rtt_PACKAGE_PATH}/install REQUIRED rtt-scripting)
 find_package(PythonLibs REQUIRED)
 
 rosbuild_add_boost_directories()
